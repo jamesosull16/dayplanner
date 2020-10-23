@@ -1,12 +1,8 @@
-//VARIABLE DECLATION
 $(document).ready(function () {
-  var saveBtn = $(".saveBtn");
-  var description = $(".description");
-
   //FUNCTIONS
 
   //updating the current day and time
-  update = function () {
+  var update = function () {
     //using moment() to retrieve current day and time
     $("#currentDay").html(moment().format("dddd, MMM, Do YYYY, h:mm:ss a"));
   };
@@ -15,11 +11,13 @@ $(document).ready(function () {
   setInterval(update, 1000);
 
   //function for different colors dependent upon what time
-
-  var hours = date.getHours();
+  //Date object, using getHours()
+  var today = new Date(Date.now());
+  var hours = today.getHours();
   var htmlTimeBlock;
   $(".description").each(function () {
     htmlTimeBlock = parseInt($(this).attr("data-time"));
+    if (htmlTimeBlock < 7) htmlTimeBlock += 12;
     if (hours > htmlTimeBlock) {
       $(this).addClass("past");
     } else if (hours < htmlTimeBlock) {
@@ -27,8 +25,21 @@ $(document).ready(function () {
     } else {
       $(this).addClass("present");
     }
+
+    var saveData = window.localStorage.getItem(htmlTimeBlock);
+    $(this).val(saveData);
   });
 
   //..saveBtn - event listener to save to local storage once clicked
-  $(".saveBtn").on("click", function () {});
+  $(".saveBtn").on("click", function (event) {
+    event.preventDefault();
+    //.prev gets the immeadiately precceding sibling element
+    var value = $(this).prev().val();
+    //
+    var timeBlock = parseInt($(this).prev().attr("data-time"));
+    if (timeBlock < 7) timeBlock += 12;
+    console.log(timeBlock);
+    console.log(value);
+    window.localStorage.setItem(timeBlock, value);
+  });
 });
