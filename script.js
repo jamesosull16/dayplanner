@@ -16,8 +16,11 @@ $(document).ready(function () {
   var hours = today.getHours();
   var htmlTimeBlock;
   $(".description").each(function () {
+    //parseInt to ensure the string is returned as an integer
     htmlTimeBlock = parseInt($(this).attr("data-time"));
+    //adding 12 to anytime time thats less than 7
     if (htmlTimeBlock < 7) htmlTimeBlock += 12;
+    //if/else to determine what color should be displayed
     if (hours > htmlTimeBlock) {
       $(this).addClass("past");
     } else if (hours < htmlTimeBlock) {
@@ -25,7 +28,7 @@ $(document).ready(function () {
     } else {
       $(this).addClass("present");
     }
-
+    //ensuring that the data input by the user is saved to the specific time block
     var saveData = window.localStorage.getItem(htmlTimeBlock);
     $(this).val(saveData);
   });
@@ -35,11 +38,9 @@ $(document).ready(function () {
     event.preventDefault();
     //.prev gets the immeadiately precceding sibling element
     var value = $(this).prev().val();
-    //
     var timeBlock = parseInt($(this).prev().attr("data-time"));
     if (timeBlock < 7) timeBlock += 12;
-    console.log(timeBlock);
-    console.log(value);
+    //saves the value entered when the save button is clicked
     window.localStorage.setItem(timeBlock, value);
   });
 });
