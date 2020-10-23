@@ -4,6 +4,7 @@ $(document).ready(function () {
   //updating the current day and time
   var update = function () {
     //using moment() to retrieve current day and time
+    //wanted to include the time and have it dynamically updated
     $("#currentDay").html(moment().format("dddd, MMM, Do YYYY, h:mm:ss a"));
   };
   //calling the update function and setting the interval to every second
